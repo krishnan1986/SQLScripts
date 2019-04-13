@@ -1,0 +1,17 @@
+create or replace function EMPSAL (empid IN number)
+return NUMBER
+is 
+salval NUMBER(20,2);
+ename varchar2(100);
+begin
+
+select name into ename from employee where emp_id=empid;
+DBMS_OUTPUT.PUT_LINE('Fetching salary of '||ename || ' employee');
+select salary into salval from employee where emp_id=empid;
+
+DBMS_OUTPUT.PUT_LINE('salary of ' || ename || 'is '|| salval);
+return salval;
+EXCEPTION
+WHEN OTHERS THEN
+DBMS_OUTPUT.PUT_LINE('Exception occured');
+end;

@@ -1,0 +1,21 @@
+create or replace procedure updateDOB(empid IN integer,dateOB IN date)
+is
+cursor c1 is
+select date_of_birth,emp_id from employee;
+dob date;
+eid number;
+begin
+
+update employee set date_of_birth=dateOB where emp_id=empid;
+dbms_output.put_line('employee updated');
+open c1;
+loop
+fetch c1 into dob,eid;
+exit when c1%NOTFOUND;
+ dbms_output.put_line(eid || ' ' || dob);
+end loop;
+
+Exception 
+when others then
+ dbms_output.put_line('exception encountered');
+end updateDOB;

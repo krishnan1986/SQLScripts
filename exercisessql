@@ -1,0 +1,26 @@
+-- list out the total years of experience in the company of all employees
+select  floor(months_between(sysdate,date_of_joining)/12) as experience,name
+from employee order by experience;
+--select sysdate from dual;
+-- compute the average age of all employees in the company
+
+select avg(trunc(MONTHS_BETWEEN(sysdate,date_of_birth)/12)) as average_age
+from employee;
+
+-- find the employees who have joined before jan 1st 2000
+select name,emp_id,salary,date_of_joining
+from employee
+where date_of_joining >(select '01-01-00' from dual);
+
+SELECT * FROM EMPLOYEE WHERE DATE_OF_BIRTH BETWEEN TO_DATE('01-01-1998','DD-MM-YYYY') AND TO_DATE('01-01-2001','DD-MM-YYYY');
+SELECT NAME FROM BUSINESS_LINES GROUP BY name,DEPT_NUM;
+
+--SELECT EMPLOYEE.NAME FROM EMPLOYEE,BUSINESS_LINES WHERE LEAD_EMP_ID=EMP_ID AND BUSINESS_LINES.NAME='FINANCE';
+SELECT distinct(employee.NAME) FROM EMPLOYEE,BUSINESS_LINES WHERE LEAD_EMP_ID=EMP_ID AND BUSINESS_LINES.dept_num='101';
+
+select avg(floor(months_between(sysdate,date_of_birth)/12)) as average_age from employee;
+
+SELECT distinct(employee.NAME) FROM EMPLOYEE,BUSINESS_LINES WHERE LEAD_EMP_ID=EMP_ID AND BUSINESS_LINES.dept_num=(select dept_num from business_lines,department where dept_id=dept_num and dept_name='FINANCE');
+
+
+select employee.name from employee,department where salary= (select max(salary) from employee, department where dept_no=dept_id and dept_name='HR');

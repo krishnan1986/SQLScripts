@@ -1,0 +1,16 @@
+create or replace procedure insertEMP(empid IN number)
+is
+
+INTEGRITY_VIOLATED EXCEPTION;
+
+PRAGMA EXCEPTION_INIT(INTEGRITY_VIOLATED,-0001);
+begin
+
+ INSERT into employee(emp_id,Salary,dept_no) values (empid,'100',5);
+EXCEPTION 
+ WHEN INTEGRITY_VIOLATED then
+  DBMS_OUTPUT.PUT_LINE('Insert failed');
+ WHEN others
+ then
+  DBMS_OUTPUT.PUT_LINE('Something else is wrong' || SQLCODE|| ':' || SQLERRM);
+end insertEMP;

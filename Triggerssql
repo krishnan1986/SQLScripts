@@ -1,0 +1,24 @@
+create or replace trigger SalTrigger
+after 
+insert
+on employee
+for each row
+when (new.emp_id >0)
+declare
+n number;
+begin 
+
+DBMS_OUTPUT.PUT_LINE('insert trigger fired');
+--rollback;
+
+SELECT count(*) into n FROM dba_tables where table_name = 'INSERTION_AUDIT';
+
+if( n <= 0) then
+
+execute immediate
+ 'create table INSERTION_AUDIT (EMP_ID number not null,salary number(20,2) not null)';
+ end if;
+
+
+ insert into INSERTION_AUDIT(EMP_ID,SALARY) values (:new.EMP_ID,:new.Salary);
+end;

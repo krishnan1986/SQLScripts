@@ -1,0 +1,41 @@
+set serveroutput on;
+declare
+type dobarray  is varray(11) of date;
+type dojarray  is varray(11) of date;
+dob1 dobarray;
+doj1 dojarray;
+dob date;
+doj date;
+totalRows integer;
+i integer;
+cursor c1 is 
+ select date_of_birth,date_of_joining from employee;
+begin
+i :=1;
+dob1:= dobarray('01-01-1991','01-01-1992','01-01-1993','01-01-1994','01-01-1995','01-01-1996','01-01-1997','01-01-1998','01-01-1999','01-01-1990','01-01-1991');
+ doj1 :=dojarray('01-01-2010','01-01-2002','01-01-2013','01-01-2014','01-01-2015','01-01-2016','01-01-2017','01-01-1998','01-01-2019','01-01-2010','01-01-2011');
+
+open c1;
+loop 
+fetch c1 into  dob,doj;
+ exit when c1%notfound;
+ dbms_output.put_line(dob || ' ' || doj || ' ' || dob1(i) || ' ' || doj1(i));
+ update employee set date_of_birth=dob1(i), date_of_joining=doj1(i) where emp_id=i;
+ i:=i+1;
+ end loop;
+ close c1;
+
+-- select count(*)  into totalRows from employee;
+-- i:=1;
+-- --for i in 1 .. totalRows loop
+--  -- dbms_output.put_line(i);
+--   for emp_rec in c1 
+--   loop
+--   dbms_output.put_line(dob(i) ||' '|| doj(i) || ' '|| emp_rec);
+--   
+--   --update employee set date_of_birth =dob(i) , date_of_joining=doj(i);
+--   
+--   i:=i+1;
+-- end loop;
+
+end;

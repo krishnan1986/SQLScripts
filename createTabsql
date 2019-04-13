@@ -1,0 +1,11 @@
+create or replace procedure CREATEIFEXISTSTAB(tab_name IN VARCHAR2,l_owner IN varchar2)
+is 
+l_check varchar2(10);
+begin 
+SELECT 'VALID' into l_check FROM dba_tables where table_name = tab_name and owner = l_owner; 
+DBMS_OUTPUT.PUT_LINE('TABLE '|| l_owner ||'.'|| l_table_name ||' ALREADY EXIST.'); 
+EXCEPTION 
+ when NO_DATA_FOUND then 
+ execute immediate 'CREATE TABLE' ||l_owner||'.'||tab_name||'(EMP_ID number not null,salary number(20,2) not null )';
+ DBMS_OUTPUT.PUT_LINE('TABLE '|| l_owner ||'.'|| tab_name ||' CREATED SUCESSFULLY.');  
+end;
