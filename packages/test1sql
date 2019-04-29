@@ -1,0 +1,7 @@
+create or replace package myPackage 
+is
+procedure insertManyRows(totalRows number);
+procedure updateRows(startRow number, endRow number);
+end myPackage;
+
+drop package myPackage;
