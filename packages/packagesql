@@ -1,0 +1,40 @@
+
+
+create or replace package body myPackage as
+
+procedure updateRows( startRow number, endRow number)
+is 
+totalRows integer;
+rowIndex number;
+row_not_found exception;
+cursor c1 
+is select emp_id from employee;
+begin
+
+select count(*) into totalRows from employee ;
+if (startRow > totalRows) or ( startRow = 0)  then 
+raise row_not_found;
+elsif endRow >totalRows then 
+raise row_not_found;
+else
+
+open c1;
+loop
+fetch c1 into rowIndex;
+exit when c1%NOTFOUND;
+if(rowIndex = startRow) then
+dbms_output.put_line('row is '|| rowIndex);
+-- update employee set salary=2000 where emp_id=rowIndex;
+end if;
+end loop;
+end if;
+
+
+exception 
+when row_not_found then 
+ dbms_output.put_line('invalid row');
+ when others then 
+ dbms_output.put_line('Error occured');
+end updateRows;
+
+end myPackage;
